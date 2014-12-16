@@ -44,7 +44,7 @@ public class LoggingWithJSONTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/loggingwithjson.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/loggingwithjson.xml");
         logViewer = new LogViewerClient(context.getContextUrls().getBackEndUrl(), sessionCookie);
     }
 

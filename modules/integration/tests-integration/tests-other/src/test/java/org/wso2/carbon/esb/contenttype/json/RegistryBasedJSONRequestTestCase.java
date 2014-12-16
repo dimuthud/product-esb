@@ -45,7 +45,7 @@ public class RegistryBasedJSONRequestTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/registrybasedjsonproxy.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/registrybasedjsonproxy.xml");
         resourceAdminServiceStub =
                 new ResourceAdminServiceClient(context.getContextUrls().getBackEndUrl(), getSessionCookie());
     }
@@ -70,7 +70,7 @@ public class RegistryBasedJSONRequestTestCase extends ESBIntegrationTest {
         resourceAdminServiceStub.addResource(
                 "/_system/config/repository/esb/registry/jsonrequest.txt", "text/plain", "Adding json request",
                 new DataHandler(new URL("file:///" + getESBResourceLocation() +
-                        "/jaxrs/jsonrequest.txt")));
+                        "/json/jsonrequest.txt")));
 
         Thread.sleep(1000);
 

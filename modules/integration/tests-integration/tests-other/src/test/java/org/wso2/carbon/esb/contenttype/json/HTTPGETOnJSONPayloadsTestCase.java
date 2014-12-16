@@ -42,7 +42,7 @@ public class HTTPGETOnJSONPayloadsTestCase extends ESBIntegrationTest {
     @BeforeTest(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonHTTPGetProxy.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonHTTPGetProxy.xml");
         tomcatServerManager = new TomcatServerManager(MusicConfig.class.getName(), "jaxrs", 8080);
         tomcatServerManager.startServer();
     }

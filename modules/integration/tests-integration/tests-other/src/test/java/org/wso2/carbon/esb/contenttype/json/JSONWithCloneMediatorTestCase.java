@@ -47,7 +47,7 @@ public class JSONWithCloneMediatorTestCase extends ESBIntegrationTest {
 
         super.init();
 
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonclonemediator.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonclonemediator.xml");
 
         // Initiating three tcpmon listener instances
         tcpMonListenerOne = new TCPMonListener(9005, context.getDefaultInstance().getHosts().

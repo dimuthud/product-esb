@@ -39,7 +39,7 @@ public class JSONWithAPITestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonwithapi.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithapi.xml");
     }
 
     @AfterClass(alwaysRun = true)

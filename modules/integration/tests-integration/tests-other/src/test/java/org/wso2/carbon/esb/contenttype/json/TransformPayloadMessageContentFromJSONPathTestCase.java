@@ -39,7 +39,7 @@ public class TransformPayloadMessageContentFromJSONPathTestCase extends ESBInteg
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/transformmessagecontentjsonpath.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/transformmessagecontentjsonpath.xml");
     }
 
     @AfterClass(alwaysRun = true)

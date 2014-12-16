@@ -39,7 +39,7 @@ public class HTTPPUTOnJsonPayloadsTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonHTTPPutProxy.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonHTTPPutProxy.xml");
         client = Client.create();
     }
 

@@ -44,7 +44,7 @@ public class JSONWithPropertyMediatorTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonwithpropertymediator.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithpropertymediator.xml");
         logViewer = new LogViewerClient(context.getContextUrls().getBackEndUrl(), sessionCookie);
     }
 

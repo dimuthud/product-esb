@@ -39,7 +39,7 @@ public class JSONWithSwitchMediatorTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonwithswicthproxy.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithswicthproxy.xml");
     }
 
     @AfterClass(alwaysRun = true)

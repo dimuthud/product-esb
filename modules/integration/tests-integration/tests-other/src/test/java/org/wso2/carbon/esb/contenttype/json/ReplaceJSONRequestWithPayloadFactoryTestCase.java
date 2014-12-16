@@ -44,7 +44,7 @@ public class ReplaceJSONRequestWithPayloadFactoryTestCase extends ESBIntegration
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonreplacepayload.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonreplacepayload.xml");
         logViewer = new LogViewerClient(context.getContextUrls().getBackEndUrl(), sessionCookie);
     }
 

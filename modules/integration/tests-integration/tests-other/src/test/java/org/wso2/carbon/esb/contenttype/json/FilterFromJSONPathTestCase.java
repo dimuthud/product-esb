@@ -39,7 +39,7 @@ public class FilterFromJSONPathTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonfilterfromjsonpath.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonfilterfromjsonpath.xml");
     }
 
     @AfterClass(alwaysRun = true)

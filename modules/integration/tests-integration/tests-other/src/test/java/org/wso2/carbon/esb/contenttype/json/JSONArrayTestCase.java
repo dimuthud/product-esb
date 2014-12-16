@@ -41,7 +41,7 @@ public class JSONArrayTestCase extends ESBIntegrationTest {
     public void setEnvironment() throws Exception {
         super.init();
         loadESBConfigurationFromClasspath
-                ("/artifacts/ESB/jaxrs/xmltojsonarray.xml");
+                ("/artifacts/ESB/json/xmltojsonarray.xml");
     }
 
     @AfterClass(alwaysRun = true)

@@ -40,7 +40,7 @@ public class FilterFromXpathTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsonfilterfromxpath.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonfilterfromxpath.xml");
         webResource = client
                 .resource(getProxyServiceURLHttp("FilterWithJSONProxyXpath"));
     }

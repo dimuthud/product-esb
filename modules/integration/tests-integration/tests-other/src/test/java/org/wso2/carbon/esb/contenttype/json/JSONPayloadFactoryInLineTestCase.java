@@ -40,7 +40,7 @@ public class JSONPayloadFactoryInLineTestCase extends ESBIntegrationTest {
     public void setEnvironment() throws Exception {
         super.init();
         loadESBConfigurationFromClasspath
-                ("/artifacts/ESB/jaxrs/jsoninlinepayloadfacproxy.xml");
+                ("/artifacts/ESB/json/jsoninlinepayloadfacproxy.xml");
     }
 
     @AfterClass(alwaysRun = true)

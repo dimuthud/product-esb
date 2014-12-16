@@ -39,7 +39,7 @@ public class JSONIntegerAndStringRequestTestCase extends ESBIntegrationTest {
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/jsoninteger.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsoninteger.xml");
     }
 
     @AfterClass(alwaysRun = true)

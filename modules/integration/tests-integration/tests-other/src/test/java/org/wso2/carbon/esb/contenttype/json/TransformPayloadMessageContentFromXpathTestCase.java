@@ -39,7 +39,7 @@ public class TransformPayloadMessageContentFromXpathTestCase extends ESBIntegrat
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/jaxrs/transformmessagecontentxpath.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/transformmessagecontentxpath.xml");
     }
 
     @AfterClass(alwaysRun = true)
