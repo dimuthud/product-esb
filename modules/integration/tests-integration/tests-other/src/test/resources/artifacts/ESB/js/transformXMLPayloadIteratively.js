@@ -1,4 +1,4 @@
-function transformXML(mc) {
+function transform(mc) {
     payload = mc.getPayloadJSON();
     results = payload.results;
     var response = <locations/>;

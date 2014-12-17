@@ -55,7 +55,9 @@
 
     <test name="Content-Type-Test" preserve-order="true" verbose="2">
         <classes>
-            <class name="org.wso2.carbon.esb.contenttype.json.JSONWithScriptMediatorJsonResponseTestCase"/>
+            <class name="org.wso2.carbon.esb.contenttype.json.JSONWithScriptMediatorJsonOperationsTestCase"/>
+            <!--<class name="org.wso2.carbon.esb.contenttype.json.JSONWithScriptMediatorBuildingXMLPayloadIterativelyTestCase"/>-->
+            <!--<class name="org.wso2.carbon.esb.contenttype.json.JSONWithScriptMediatorXMLResponseTestCase"/>-->
         </classes>
     </test>
 

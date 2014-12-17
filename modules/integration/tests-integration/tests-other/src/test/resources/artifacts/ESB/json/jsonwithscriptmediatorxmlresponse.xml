@@ -3,9 +3,6 @@
    <registry provider="org.wso2.carbon.mediation.registry.WSO2Registry">
       <parameter name="cachableDuration">15000</parameter>
    </registry>
-   <taskManager provider="org.wso2.carbon.mediation.ntask.NTaskTaskManager">
-      <parameter name="cachableDuration">15000</parameter>
-   </taskManager>
    <proxy name="locations"
           transports="https http"
           startOnLoad="true"
@@ -21,7 +18,7 @@
          </inSequence>
          <outSequence>
     <script language="js"
-            key="conf:/repository/esb/transform.js"
+            key="conf:/repository/esb/transformXMLPayloadIteratively.js"
             function="transform"/>
     <property name="messageType" value="application/xml" scope="axis2"/>
     <send/>
@@ -91,6 +88,7 @@
 }</format>
                <args/>
             </payloadFactory>
+             <property name="messageType" value="application/json" scope="axis2"/>
             <respond/>
          </inSequence>
       </target>

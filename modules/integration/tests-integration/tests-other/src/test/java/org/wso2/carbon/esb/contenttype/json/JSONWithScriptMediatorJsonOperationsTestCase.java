@@ -19,19 +19,20 @@
 package org.wso2.carbon.esb.contenttype.json;
 
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.esb.integration.common.clients.registry.ResourceAdminServiceClient;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import javax.activation.DataHandler;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * This class can be used to test JSON payloads transformation testing with json operations like add, delete etc.
@@ -45,7 +46,7 @@ public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegration
     private Client client = Client.create();
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeTest(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
         loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithscriptmediatorjsonoperaions.xml");
@@ -55,7 +56,7 @@ public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegration
 
     }
 
-    @AfterTest(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
         client.destroy();
         super.cleanup();
@@ -70,28 +71,26 @@ public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegration
                 new DataHandler(new URL("file:///" + getClass().getResource(
                         "/artifacts/ESB/js/transform.js").getPath())));
 
-        WebResource webResource = client
-                .resource(getProxyServiceURLHttp("locations"));
+        URL url = new URL(getProxyServiceURLHttp("locations"));
 
-        // Calling the GET request to verify by default Added album details
-        ClientResponse getResponse = webResource.type("application/json")
-                .get(ClientResponse.class);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-Type", "application/json");
 
-        // TODO - Once https://wso2.org/jira/browse/ESBJAVA-3423 is fixed.
-        assertNotNull(getResponse, "Received Null response for while getting Music album details");
-        assertEquals(getResponse, "[\n" +
-                "   {\n" +
-                "      \"name\":\"Biaggio Cafe\",\n" +
-                "      \"tags\":[\"bar\", \"restaurant\", \"food\", \"establishment\", \"pub\"],\n" +
-                "      \"id_str\":\"ID:7eaf7\"\n" +
-                "   },\n" +
-                "   {\n" +
-                "      \"name\":\"Doltone House\",\n" +
-                "      \"tags\":[\"food\", \"establishment\", \"pub\"],\n" +
-                "      \"id_str\":\"ID:3ef98\"\n" +
-                "   }\n" +
-                "]",
-                "Response mismatch. Expected JSON response not received after transformation.");
+        conn.getOutputStream();
+
+        assertTrue(conn.getResponseCode() == HttpURLConnection.HTTP_OK,
+                "Response Code Mismatch. Expected 200 : Received " + conn.getResponseCode());
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                (conn.getInputStream()), "UTF-8"));
+
+        String getResponse = br.readLine();
+
+        br.close();  // closing the BufferedReader-Stream
+
+        assertNotNull(getResponse, "Received Null response as the JSON response");
     }
 
 }

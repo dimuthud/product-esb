@@ -18,34 +18,32 @@
 
 package org.wso2.carbon.esb.contenttype.json;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.esb.integration.common.clients.registry.ResourceAdminServiceClient;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import javax.activation.DataHandler;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.*;
 
 /**
  * This class can be used to test JSON payloads transformation within the ESB using Script mediator. basically we are
- * testing here the usage of getPayloadJSON and setPayloadJSON to test JSON to JSON transformation performed by
- * the Script mediator
- *
- *  Note : That this tests is disabled due to : https://wso2.org/jira/browse/ESBJAVA-3423
+ * testing here the usage of getPayloadJSON and setPayloadJSON to test transform JSON payloads to transform
+ * from one JSON format to another JSON format
+ * <p/>
+ * Note : That this tests is disabled due to : https://wso2.org/jira/browse/ESBJAVA-3423
  */
 public class JSONWithScriptMediatorJsonResponseTestCase extends ESBIntegrationTest {
 
-    private Client client = Client.create();
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeTest(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
         loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithscriptmediator.xml");
@@ -55,14 +53,13 @@ public class JSONWithScriptMediatorJsonResponseTestCase extends ESBIntegrationTe
 
     }
 
-    @AfterTest(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
         super.cleanup();
     }
 
-    @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator",
-    enabled = false)
+    @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator"
+            /*enabled = false*/)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
 
         resourceAdminServiceClient.addResource(
@@ -70,27 +67,35 @@ public class JSONWithScriptMediatorJsonResponseTestCase extends ESBIntegrationTe
                 new DataHandler(new URL("file:///" + getClass().getResource(
                         "/artifacts/ESB/js/transform.js").getPath())));
 
-        WebResource webResource = client
-                .resource(getProxyServiceURLHttp("locations"));
+        URL url = new URL(getProxyServiceURLHttp("locations"));
 
-        // Calling the GET request to verify by default Added album details
-        ClientResponse getResponse = webResource.type("application/json")
-                .get(ClientResponse.class);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-Type", "application/json");
 
-        // TODO - Once https://wso2.org/jira/browse/ESBJAVA-3423 is fixed.
-        assertNotNull(getResponse, "Received Null response for while getting Music album details");
-        assertEquals(getResponse,"[\n" +
-                "    {\n" +
-                "        \"id\":\"ID:7eaf7\", \n" +
-                "        \"tags\":[\"bar\", \"restaurant\", \"food\", \"establishment\"], \n" +
-                "        \"name\":\"Biaggio Cafe\"\n" +
-                "    }, \n" +
-                "    {\n" +
-                "       \"id\":\"ID:3ef98\", \n" +
-                "       \"tags\":[\"food\", \"establishment\"], \n" +
-                "       \"name\":\"Doltone House\"\n" +
-                "    }\n" +
-                "]",
-                "Response mismatch. Expected JSON response not received after transformation.");
+        conn.getOutputStream();
+
+        assertTrue(conn.getResponseCode() == HttpURLConnection.HTTP_OK,
+                "Response Code Mismatch. Expected 200 : Received " + conn.getResponseCode());
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                (conn.getInputStream()), "UTF-8"));
+
+        String getResponse = br.readLine();
+
+        br.close();  // closing the BufferedReader-Stream
+
+        assertNotNull(getResponse, "Received Null response as the JSON response");
+        assertEquals(getResponse, "" +
+                "[" +
+                "{\"id\":\"ID:7eaf7\"," +
+                " \"tags\":[\"bar\", \"restaurant\", \"food\", \"establishment\"]," +
+                " \"name\":\"Biaggio Cafe\"" +
+                "}, " +
+                "{\"id\":\"ID:3ef98\"," +
+                " \"tags\":[\"food\", \"establishment\"]," +
+                " \"name\":\"Doltone House\"}]",
+                "Response mismatch. Expected JSON response not received after transformation with script mediator.");
     }
 }

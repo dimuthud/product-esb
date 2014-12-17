@@ -3,9 +3,6 @@
    <registry provider="org.wso2.carbon.mediation.registry.WSO2Registry">
       <parameter name="cachableDuration">15000</parameter>
    </registry>
-   <taskManager provider="org.wso2.carbon.mediation.ntask.NTaskTaskManager">
-      <parameter name="cachableDuration">15000</parameter>
-   </taskManager>
    <proxy name="locations"
           transports="https http"
           startOnLoad="true"
@@ -90,6 +87,7 @@
 }</format>
                <args/>
             </payloadFactory>
+             <property name="messageType" value="application/json" scope="axis2"/>
             <respond/>
          </inSequence>
       </target>

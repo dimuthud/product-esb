@@ -18,14 +18,11 @@
 
 package org.wso2.carbon.esb.contenttype.json;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.apache.axiom.om.OMElement;
+import org.testng.annotations.*;
 import org.wso2.esb.integration.common.clients.registry.ResourceAdminServiceClient;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
+import org.wso2.esb.integration.common.utils.clients.axis2client.AxisServiceClient;
 
 import javax.activation.DataHandler;
 import java.net.URL;
@@ -42,10 +39,9 @@ import static org.testng.Assert.assertNotNull;
  */
 public class JSONWithScriptMediatorXMLResponseTestCase extends ESBIntegrationTest {
 
-    private Client client = Client.create();
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeTest(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
         loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithscriptmediatorxmlresponse.xml");
@@ -55,14 +51,13 @@ public class JSONWithScriptMediatorXMLResponseTestCase extends ESBIntegrationTes
 
     }
 
-    @AfterTest(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
         super.cleanup();
     }
 
     @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator " +
-            "- response should be in xml format", enabled = false)
+            "- response should be in xml format",enabled = false)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
 
         resourceAdminServiceClient.addResource(
@@ -70,30 +65,29 @@ public class JSONWithScriptMediatorXMLResponseTestCase extends ESBIntegrationTes
                 new DataHandler(new URL("file:///" + getClass().getResource(
                         "/artifacts/ESB/js/transform.js").getPath())));
 
-        WebResource webResource = client
-                .resource(getProxyServiceURLHttp("locations"));
+        AxisServiceClient axisServiceClient = new AxisServiceClient();
 
-        // Calling the GET request to verify by default Added album details
-        ClientResponse getResponse = webResource.type("application/xml")
-                .get(ClientResponse.class);
+        String proxyServiceEP = getProxyServiceURLHttp("locations");
+        OMElement response = axisServiceClient.sendReceive(null, proxyServiceEP, "urn:mediate");
 
-        // TODO - Once https://wso2.org/jira/browse/ESBJAVA-3423 is fixed.
-        assertNotNull(getResponse, "Received Null response for while getting Music album details");
-        assertEquals(getResponse, "<jsonArray>\n" +
-                "   <jsonElement>\n" +
-                "      <id>ID:7eaf7</id>\n" +
-                "      <tags>bar</tags>\n" +
-                "      <tags>restaurant</tags>\n" +
-                "      <tags>food</tags>\n" +
-                "      <tags>establishment</tags>\n" +
-                "      <name>Biaggio Cafe</name>\n" +
-                "   </jsonElement>\n" +
-                "   <jsonElement>\n" +
-                "      <id>ID:3ef98</id>\n" +
-                "      <tags>food</tags>\n" +
-                "      <tags>establishment</tags>\n" +
-                "      <name>Doltone House</name>\n" +
-                "   </jsonElement>\n" +
-                "</jsonArray>", "Response mismatch. Expected XML response not received after transformation.");
+        assertNotNull(response, "Received Null response for while getting Music album details");
+        assertEquals(response.toString(),
+                "<jsonArray>" +
+                        "<jsonElement>" +
+                        "<id>ID:7eaf7</id>" +
+                        "<tags>bar</tags>" +
+                        "<tags>restaurant</tags>" +
+                        "<tags>food</tags>" +
+                        "<tags>establishment</tags>" +
+                        "<name>Biaggio Cafe</name>" +
+                        "</jsonElement>" +
+                        "<jsonElement>" +
+                        "<id>ID:3ef98</id>" +
+                        "<tags>food</tags>" +
+                        "<tags>establishment</tags>" +
+                        "<name>Doltone House</name>" +
+                        "</jsonElement>" +
+                        "</jsonArray>", "Response mismatch. Expected XML response not received after transformation.");
+
     }
 }
