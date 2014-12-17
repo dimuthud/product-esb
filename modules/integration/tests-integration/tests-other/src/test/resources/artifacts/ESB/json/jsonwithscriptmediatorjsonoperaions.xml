@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://ws.apache.org/ns/synapse">
+   <registry provider="org.wso2.carbon.mediation.registry.WSO2Registry">
+      <parameter name="cachableDuration">15000</parameter>
+   </registry>
+   <taskManager provider="org.wso2.carbon.mediation.ntask.NTaskTaskManager">
+      <parameter name="cachableDuration">15000</parameter>
+   </taskManager>
+   <proxy name="locations"
+          transports="https http"
+          startOnLoad="true"
+          trace="disable">
+      <description/>
+      <target>
+         <inSequence>
+            <send>
+               <endpoint>
+                  <address uri="http://localhost:8280/services/ResponseProducer"/>
+               </endpoint>
+            </send>
+         </inSequence>
+         <outSequence>
+            <script language="js"
+                    key="conf:/repository/esb/transform.js"
+                    function="transform"/>
+            <send>
+               <endpoint>
+                  <address uri="http://dimuthu-thinkpad-t530:8280/services/transformjson"/>
+               </endpoint>
+            </send>
+         </outSequence>
+      </target>
+   </proxy>
+   <proxy name="ResponseProducer"
+          transports="https http"
+          startOnLoad="true"
+          trace="disable">
+      <description/>
+      <target>
+         <inSequence>
+            <payloadFactory media-type="json">
+               <format>{
+   "results" : [
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : -33.867260,
+               "lng" : 151.1958130
+            }
+         },
+         "icon" : "bar-71.png",
+         "id" : "7eaf7",
+         "name" : "Biaggio Cafe",
+         "opening_hours" : {
+            "open_now" : true
+         },
+         "photos" : [
+            {
+               "height" : 600,
+               "html_attributions" : [],
+               "photo_reference" : "CoQBegAAAI",
+               "width" : 900
+            }
+         ],
+         "price_level" : 1,
+         "reference" : "CnRqAAAAtz",
+         "types" : [ "bar", "restaurant", "food", "establishment" ],
+         "vicinity" : "48 Pirrama Road, Pyrmont"
+      },
+      {
+         "geometry" : {
+            "location" : {
+               "lat" : -33.8668040,
+               "lng" : 151.1955790
+            }
+         },
+         "icon" : "generic_business-71.png",
+         "id" : "3ef98",
+         "name" : "Doltone House",
+         "photos" : [
+            {
+               "height" : 600,
+               "html_attributions" : [],
+               "photo_reference" : "CqQBmgAAAL",
+               "width" : 900
+            }
+         ],
+         "reference" : "CnRrAAAAV",
+         "types" : [ "food", "establishment" ],
+         "vicinity" : "48 Pirrama Road, Pyrmont"
+      }
+   ],
+   "status" : "OK"
+}</format>
+               <args/>
+            </payloadFactory>
+            <respond/>
+         </inSequence>
+      </target>
+   </proxy>
+   <proxy name="transformjson"
+          transports="https http"
+          startOnLoad="true"
+          trace="disable">
+      <description/>
+      <target>
+         <inSequence>
+            <script language="js">payload = mc.getPayloadJSON();
+           for (i = 0; i &lt; payload.length; i++) {
+               payload[i].id_str = payload[i].id;
+               delete payload[i].id;
+               payload[i].tags[payload[i].tags.length] = "pub";
+           }
+           mc.setPayloadJSON(payload);</script>
+            <log>
+               <property name="JSON-Payload" expression="json-eval($.)"/>
+            </log>
+            <respond/>
+         </inSequence>
+      </target>
+   </proxy>
+   <sequence name="fault">
+      <log level="full">
+         <property name="MESSAGE" value="Executing default 'fault' sequence"/>
+         <property name="ERROR_CODE" expression="get-property('ERROR_CODE')"/>
+         <property name="ERROR_MESSAGE" expression="get-property('ERROR_MESSAGE')"/>
+      </log>
+      <drop/>
+   </sequence>
+   <sequence name="main">
+      <in>
+         <log level="full"/>
+         <filter source="get-property('To')" regex="http://localhost:9000.*">
+            <send/>
+         </filter>
+      </in>
+      <out>
+         <send/>
+      </out>
+      <description>The main sequence for the message mediation</description>
+   </sequence>
+</definitions>
