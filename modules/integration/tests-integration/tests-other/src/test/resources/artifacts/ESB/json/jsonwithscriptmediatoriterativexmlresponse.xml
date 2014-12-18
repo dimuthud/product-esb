@@ -3,9 +3,6 @@
     <registry provider="org.wso2.carbon.mediation.registry.WSO2Registry">
         <parameter name="cachableDuration">15000</parameter>
     </registry>
-    <taskManager provider="org.wso2.carbon.mediation.ntask.NTaskTaskManager">
-        <parameter name="cachableDuration">15000</parameter>
-    </taskManager>
     <proxy name="locations"
            transports="https http"
            startOnLoad="true"
@@ -21,13 +18,10 @@
             </inSequence>
             <outSequence>
                 <script language="js"
-                        key="conf:/repository/esb/transform.js"
+                        key="conf:/repository/esb/transformXMLPayloadIteratively.js"
                         function="transform"/>
-                <send>
-                    <endpoint>
-                        <address uri="http://dimuthu-thinkpad-t530:8280/services/transformjson"/>
-                    </endpoint>
-                </send>
+                <property name="messageType" value="application/xml" scope="axis2"/>
+                <send/>
             </outSequence>
         </target>
     </proxy>
@@ -94,27 +88,7 @@
                         }</format>
                     <args/>
                 </payloadFactory>
-                <respond/>
-            </inSequence>
-        </target>
-    </proxy>
-    <proxy name="transformjson"
-           transports="https http"
-           startOnLoad="true"
-           trace="disable">
-        <description/>
-        <target>
-            <inSequence>
-                <script language="js">payload = mc.getPayloadJSON();
-                    for (i = 0; i &lt; payload.length; ++i) {
-                    payload[i].id_str = payload[i].id;
-                    delete payload[i].id;
-                    payload[i].tags[payload[i].tags.length] = "pub";
-                    }
-                    mc.setPayloadJSON(payload);</script>
-                <log>
-                    <property name="JSON-Payload" expression="json-eval($.)"/>
-                </log>
+                <property name="messageType" value="application/json" scope="axis2"/>
                 <respond/>
             </inSequence>
         </target>

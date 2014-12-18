@@ -56,6 +56,7 @@ public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegration
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
+        resourceAdminServiceClient.deleteResource("/_system/config/repository/esb/transform.js");
         super.cleanup();
     }
 

@@ -46,7 +46,7 @@ public class JSONWithScriptMediatorBuildingXMLPayloadIterativelyTestCase extends
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
         super.init();
-        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithscriptmediatorxmlresponse.xml");
+        loadESBConfigurationFromClasspath("/artifacts/ESB/json/jsonwithscriptmediatoriterativexmlresponse.xml");
         resourceAdminServiceClient = new ResourceAdminServiceClient
                 (contextUrls.getBackEndUrl(), context.getContextTenant().getContextUser().getUserName(),
                         context.getContextTenant().getContextUser().getPassword());
@@ -55,6 +55,7 @@ public class JSONWithScriptMediatorBuildingXMLPayloadIterativelyTestCase extends
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
+        resourceAdminServiceClient.deleteResource("/_system/config/repository/esb/transformXMLPayloadIteratively.js");
         super.cleanup();
     }
 
