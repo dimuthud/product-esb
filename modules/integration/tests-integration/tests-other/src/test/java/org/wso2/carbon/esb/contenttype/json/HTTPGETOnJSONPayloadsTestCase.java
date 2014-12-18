@@ -37,7 +37,7 @@ import static org.testng.Assert.assertNotNull;
 public class HTTPGETOnJSONPayloadsTestCase extends ESBIntegrationTest {
 
     private TomcatServerManager tomcatServerManager;
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
 
     @BeforeTest(alwaysRun = true)
     public void setEnvironment() throws Exception {
@@ -49,7 +49,7 @@ public class HTTPGETOnJSONPayloadsTestCase extends ESBIntegrationTest {
 
     @AfterTest(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         tomcatServerManager.stop();
         super.cleanup();
     }
@@ -57,7 +57,7 @@ public class HTTPGETOnJSONPayloadsTestCase extends ESBIntegrationTest {
     @Test(groups = {"wso2.esb"}, description = "Tests GET method with application/json content type")
     public void testHTTPGetRequestJSONScenario() throws Exception {
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("GetProxy"));
 
         // Calling the GET request to verify by default Added album details

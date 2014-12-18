@@ -38,7 +38,7 @@ import static org.testng.Assert.assertTrue;
 public class ReplaceJSONRequestWithPayloadFactoryTestCase extends ESBIntegrationTest {
 
     private LogViewerClient logViewer;
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
     private boolean isJsonPayload = false;
 
     @BeforeClass(alwaysRun = true)
@@ -50,7 +50,7 @@ public class ReplaceJSONRequestWithPayloadFactoryTestCase extends ESBIntegration
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         super.cleanup();
     }
 
@@ -58,19 +58,20 @@ public class ReplaceJSONRequestWithPayloadFactoryTestCase extends ESBIntegration
     public void testReplaceJSONPayloadWithPayloadFactoryScenario() throws Exception {
 
         String JSON_PAYLOAD = "{\"album\":\"Ocean\",\"singer\":\"Brown\"}";
+        String contentType = "application/json";
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("ReplacePayloadJSONProxy"));
 
-        int beforeLogSize = logViewer.getAllSystemLogs().length;
+        int beforeLogSize = logViewer.getAllRemoteSystemLogs().length;
 
         // sending post request
-        ClientResponse postResponse = webResource.type("application/json")
+        ClientResponse postResponse = webResource.type(contentType)
                 .post(ClientResponse.class, JSON_PAYLOAD);
 
         Thread.sleep(3000);
 
-        LogEvent[] logs = logViewer.getAllSystemLogs();
+        LogEvent[] logs = logViewer.getAllRemoteSystemLogs();
         int afterLogSize = logs.length;
 
         String msg = "Direction: response, JSON-Payload = {\"album\":\"First Change\",\"singer\":\"First DKL\"}";
@@ -86,12 +87,12 @@ public class ReplaceJSONRequestWithPayloadFactoryTestCase extends ESBIntegration
         assertTrue(isJsonPayload, "Response does not contain the expected JSON payload value");
 
         //This is to verify that the payload factory in the 'outsequence' behaved correctly.
-        assertEquals(postResponse.getType().toString(), "application/json;charset=UTF-8",
+        assertTrue(postResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
         assertEquals(postResponse.getStatus(), 201, "Response status should be 201");
 
         // Calling the GET request to verify Added album details
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
         assertNotNull(getResponse, "Received Null response for while getting Music album details");

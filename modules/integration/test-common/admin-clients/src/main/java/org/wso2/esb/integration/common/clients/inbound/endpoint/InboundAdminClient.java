@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.inbound.stub.InboundAdminInboundManagementException;
 import org.wso2.carbon.inbound.stub.InboundAdminStub;
 import org.wso2.carbon.inbound.stub.types.carbon.InboundEndpointDTO;
+import org.wso2.carbon.inbound.stub.types.carbon.ParameterDTO;
 import org.wso2.esb.integration.common.clients.client.utils.AuthenticateStub;
 
 import java.rmi.RemoteException;
@@ -64,7 +65,7 @@ public class InboundAdminClient {
      * @throws RemoteException
      * @throws InboundAdminInboundManagementException
      */
-    public String getAllInboundEndpointNames() throws RemoteException, InboundAdminInboundManagementException {
+    public InboundEndpointDTO[] getAllInboundEndpointNames() throws RemoteException, InboundAdminInboundManagementException {
         try {
             return endpointAdminStub.getAllInboundEndpointNames();
         } catch (RemoteException e) {
@@ -107,7 +108,7 @@ public class InboundAdminClient {
      */
     public void addInboundEndpoint(String name, String sequence,
                                    String onError, String protocol, String classImpl,
-                                   String[] sParams) throws RemoteException, InboundAdminInboundManagementException {
+                                   ParameterDTO[] sParams) throws RemoteException, InboundAdminInboundManagementException {
         try {
             endpointAdminStub.addInboundEndpoint(name, sequence, onError, protocol, classImpl, sParams);
         } catch (RemoteException e) {
@@ -145,7 +146,7 @@ public class InboundAdminClient {
      */
     public void updateInboundEndpoint(String name, String sequence,
                                       String onError, String protocol, String classImpl,
-                                      String[] sParams) throws RemoteException, InboundAdminInboundManagementException {
+                                      ParameterDTO[] sParams) throws RemoteException, InboundAdminInboundManagementException {
         try {
             endpointAdminStub.updateInboundEndpoint(name, sequence, onError, protocol, classImpl, sParams);
         } catch (RemoteException e) {

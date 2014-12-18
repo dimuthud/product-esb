@@ -18,6 +18,8 @@
 
 package org.wso2.esb.integration.services.jaxrs.musicsample;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.wso2.esb.integration.services.jaxrs.musicsample.bean.Music;
 import org.wso2.esb.integration.services.jaxrs.musicsample.bean.Singer;
@@ -30,14 +32,14 @@ public class MusicService {
 
     private final ConcurrentHashMap< String, Music> musicCollection = new ConcurrentHashMap< String, Music>();
     private final ConcurrentHashMap< String,Singer> singerCollection = new ConcurrentHashMap< String, Singer >();
-
+    private static final Log log = LogFactory.getLog(MusicService.class);
 
     public MusicService() {
         init();
     }
 
     final void init() {
-        System.out.println("Welcome To The World Of Music .... ");
+        log.info(" Welcome To The World Of Music .... ");
 
         Music music = new Music();
         music.setAlbum("Gold");

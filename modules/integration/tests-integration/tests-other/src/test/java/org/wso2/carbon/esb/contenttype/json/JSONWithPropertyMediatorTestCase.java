@@ -38,7 +38,7 @@ import static org.testng.Assert.assertTrue;
 public class JSONWithPropertyMediatorTestCase extends ESBIntegrationTest {
 
     private LogViewerClient logViewer;
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
     private boolean isJsonPathProperty = false;
 
     @BeforeClass(alwaysRun = true)
@@ -50,7 +50,7 @@ public class JSONWithPropertyMediatorTestCase extends ESBIntegrationTest {
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         super.cleanup();
     }
 
@@ -59,19 +59,20 @@ public class JSONWithPropertyMediatorTestCase extends ESBIntegrationTest {
 
         String FirstJSON_PAYLOAD = "{\"album\":\"Hotel California\",\"singer\":\"Eagles\"}";
         String SecondJSON_PAYLOAD = "{\"album\":\"TradeWorld\",\"singer\":\"Hotel California\"}";
+        String contentType = "application/json";
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("PropertyMediatorWithJsonPath"));
 
-        int beforeLogSize = logViewer.getAllSystemLogs().length;
+        int beforeLogSize = logViewer.getAllRemoteSystemLogs().length;
 
         // sending post request
-        ClientResponse postResponse = webResource.type("application/json")
+        ClientResponse postResponse = webResource.type(contentType)
                 .post(ClientResponse.class, FirstJSON_PAYLOAD);
 
         Thread.sleep(3000);
 
-        LogEvent[] logs = logViewer.getAllSystemLogs();
+        LogEvent[] logs = logViewer.getAllRemoteSystemLogs();
         int afterLogSize = logs.length;
 
         String msg = "Property1 = TradeWorld";
@@ -86,12 +87,12 @@ public class JSONWithPropertyMediatorTestCase extends ESBIntegrationTest {
         //This is to verify that the payload factory in the 'in sequence' behaved correctly.
         assertTrue(isJsonPathProperty, "Response does not contain the expected Json path property value");
 
-        assertEquals(postResponse.getType().toString(), "application/json;charset=UTF-8",
+        assertTrue(postResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
         assertEquals(postResponse.getStatus(), 201, "Response status should be 201");
 
         // Calling the GET request to verify Added album details
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
         assertNotNull(getResponse, "Received Null response for while getting Music album details");

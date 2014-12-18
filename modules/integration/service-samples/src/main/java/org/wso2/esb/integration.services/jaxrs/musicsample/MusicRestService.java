@@ -33,29 +33,22 @@ public class MusicRestService {
     private MusicService musicService;
 
     @GET
-    @Path("/get")
+    @Path("/get/musicAlbum")
     @Produces(MediaType.APPLICATION_JSON)
-    public Music getMusicInJSON(@QueryParam("album") final String albumName) {
-        /*            Music music = new Music();
-       music.setAlbum("Beat It !!!");
-       music.setSinger("Micheal Jackson");*/
-
+    public Music getAlbumDetailsByName(@QueryParam("album") final String albumName) {
         return musicService.getByAlbum(albumName);
-        //return musicService.musicCollection.get("Dimuthu");
-
     }
 
     @POST
-    @Path("/post")
+    @Path("/post/addAlbum")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createMusicInJSONPOST(Music music /*@PathParam("album") String album, @PathParam("singer") String singer*/) {
+    public Response addAlbumDetailsReturnStatusSuccess(Music music) {
 
         musicService.setMusic(music);
 
         String result = "Album Added in POST : " + music;
         return Response.status(201).entity(result).build();
-        //return music.getAlbum();
 
     }
 
@@ -63,14 +56,10 @@ public class MusicRestService {
     @Path("/postjson")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createMusicInJSONResponsePOST(Music music /*@PathParam("album") String album, @PathParam("singer") String singer*/) {
+    public Response addAlbumDetailsReturnStatusCreated(Music music) {
 
         musicService.setMusic(music);
-
-        //String result = "Album Added in POST : " + music;
         return Response.status(201).entity(music).build();
-        //return music.getAlbum();
-
     }
 
     @PUT
@@ -84,9 +73,7 @@ public class MusicRestService {
         musicOne.setSinger(music.getSinger());
 
         String result = "Album updated form PUT request: " + musicOne;
-        return Response.status(201).entity(result).build();
-        //return music;
-
+        return Response.status(Response.Status.CREATED).entity(result).build();
     }
 
     @POST
@@ -99,22 +86,13 @@ public class MusicRestService {
 
         String result = "Singer Added in POST : " + singer;
         return Response.status(201).entity(result).build();
-        //return music.getAlbum();
 
     }
 
     @GET
     @Path("/get_singer_details")
     @Produces(MediaType.APPLICATION_JSON)
-    public Singer getSingerDetailsInJSON(@QueryParam("singer") final String singerName) {
-        /*            Music music = new Music();
-       music.setAlbum("Beat It !!!");
-       music.setSinger("Micheal Jackson");*/
-
+    public Singer getSingerDetailsByName(@QueryParam("singer") final String singerName) {
         return musicService.getBySinger(singerName);
-        //return musicService.musicCollection.get("Dimuthu");
-
     }
-
-
 }

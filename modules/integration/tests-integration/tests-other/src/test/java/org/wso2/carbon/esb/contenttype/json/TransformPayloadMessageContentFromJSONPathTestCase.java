@@ -28,13 +28,14 @@ import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * This class tests transformation of message content inside the payload factory using JSON path scenario
  */
 public class TransformPayloadMessageContentFromJSONPathTestCase extends ESBIntegrationTest {
 
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
 
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
@@ -44,7 +45,7 @@ public class TransformPayloadMessageContentFromJSONPathTestCase extends ESBInteg
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         super.cleanup();
     }
 
@@ -53,20 +54,21 @@ public class TransformPayloadMessageContentFromJSONPathTestCase extends ESBInteg
 
         String FirstJSON_PAYLOAD = "{\"album\":\"Tulip\",\"singer\":\"LevisM\"}";
         String SecondJSON_PAYLOAD = "{\"album\":\"Fire in the sky\",\"singer\":\"Tulip\"}";
+        String contentType = "application/json";
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("TransformInJsonPath"));
 
         // sending post request
-        ClientResponse postResponse = webResource.type("application/json")
+        ClientResponse postResponse = webResource.type(contentType)
                 .post(ClientResponse.class, FirstJSON_PAYLOAD);
 
-        assertEquals(postResponse.getType().toString(), "application/json;charset=UTF-8",
+        assertTrue(postResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
         assertEquals(postResponse.getStatus(), 201, "Response status should be 201");
 
         // Calling the GET request to verify Added album details
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
         assertNotNull(getResponse, "Received Null response for while getting Music album details");

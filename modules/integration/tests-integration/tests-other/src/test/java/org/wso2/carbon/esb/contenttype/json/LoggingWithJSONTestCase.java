@@ -39,7 +39,7 @@ public class LoggingWithJSONTestCase extends ESBIntegrationTest {
 
     private LogViewerClient logViewer;
     private boolean isLogExists = false;
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
 
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
@@ -50,7 +50,7 @@ public class LoggingWithJSONTestCase extends ESBIntegrationTest {
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         super.cleanup();
     }
 
@@ -59,19 +59,20 @@ public class LoggingWithJSONTestCase extends ESBIntegrationTest {
     public void testJSONLoggingTestScenario() throws Exception {
 
         String JSON_PAYLOAD = "{\"album\":\"Desperado\",\"singer\":\"Eagles\"}";
+        String contentType = "application/json";
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("LoggingWithJSONProxy"));
 
-        int beforeLogSize = logViewer.getAllSystemLogs().length;
+        int beforeLogSize = logViewer.getAllRemoteSystemLogs().length;
 
         // sending post request
-        ClientResponse postResponse = webResource.type("application/json")
+        ClientResponse postResponse = webResource.type(contentType)
                 .post(ClientResponse.class, JSON_PAYLOAD);
 
         Thread.sleep(3000);
 
-        LogEvent[] logs = logViewer.getAllSystemLogs();
+        LogEvent[] logs = logViewer.getAllRemoteSystemLogs();
         int afterLogSize = logs.length;
 
         String requestMessage = "Direction: request, JSON-RequestPayload = " + JSON_PAYLOAD;
@@ -86,15 +87,15 @@ public class LoggingWithJSONTestCase extends ESBIntegrationTest {
         //This is to verify that the logging of json request was successful.
         assertTrue(isLogExists, "Logging of JSON request payload failed");
 
-        assertEquals(postResponse.getType().toString(), "application/json;charset=UTF-8",
+        assertTrue(postResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
         assertEquals(postResponse.getStatus(), 201, "Response status should be 201");
 
-        beforeLogSize = logViewer.getAllSystemLogs().length;
+        beforeLogSize = logViewer.getAllRemoteSystemLogs().length;
         isLogExists = false;
 
         // Calling the GET request to verify Added album details
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
         Thread.sleep(3000);

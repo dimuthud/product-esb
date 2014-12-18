@@ -37,7 +37,7 @@ import static org.testng.Assert.assertTrue;
  * This class can be used to test JSON payloads transformation testing with json operations like add, delete etc.
  * within the ESB using Script mediator. basically we are  testing here the usage of getPayloadJSON and
  * setPayloadJSON to test JSON to JSON transformation performed by the Script mediator
- *
+ * <p/>
  * Note : That this tests is disabled due to : https://wso2.org/jira/browse/ESBJAVA-3423
  */
 public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegrationTest {
@@ -61,7 +61,7 @@ public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegration
     }
 
     @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator - " +
-            "Testing JSON operations - add, delete",enabled = false)
+            "Testing JSON operations - add, delete", enabled = false)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
 
         resourceAdminServiceClient.addResource(

@@ -27,14 +27,16 @@ import org.testng.annotations.Test;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * This class tests JSON payloads with API's
  */
 public class JSONWithAPITestCase extends ESBIntegrationTest {
 
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
     private String JSON_PAYLOAD = "{\"album\":\"New Moon\",\"singer\":\"Eagles\"}";
+    private String contentType = "application/json";
 
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
@@ -44,22 +46,22 @@ public class JSONWithAPITestCase extends ESBIntegrationTest {
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         super.cleanup();
     }
 
     @Test(groups = "wso2.esb", description = "Testing json requests with API - POST request scenario")
     public void testJSONWithAPIHTTPPostScenario() throws Exception {
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getApiInvocationURL("addMusic") + "/music");
 
         // Calling the POST request
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .post(ClientResponse.class, JSON_PAYLOAD);
 
         // NOTE : ESB appends charset=UTF-8
-        assertEquals(getResponse.getType().toString(), "application/json;charset=UTF-8",
+        assertTrue(getResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
         assertEquals(getResponse.getStatus(), 201, "Response status should be 201");
 
@@ -69,17 +71,17 @@ public class JSONWithAPITestCase extends ESBIntegrationTest {
             , dependsOnMethods = "testJSONWithAPIHTTPPostScenario")
     public void testJSONWithAPIHTTPGetScenario() throws Exception {
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getApiInvocationURL("getMusic") + "/music");
 
         // sending the GET request
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
         assertEquals(getResponse.getStatus(), 200, "Response status should be 200");
 
         // NOTE : ESB appends charset=UTF-8
-        assertEquals(getResponse.getType().toString(), "application/json;charset=UTF-8",
+        assertTrue(getResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
         assertEquals(getResponse.getEntity(String.class), JSON_PAYLOAD, "Response mismatch for HTTP Get call");
 

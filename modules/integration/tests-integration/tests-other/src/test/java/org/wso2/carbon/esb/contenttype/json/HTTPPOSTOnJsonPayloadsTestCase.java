@@ -34,7 +34,7 @@ import static org.testng.Assert.assertNotNull;
  */
 public class HTTPPOSTOnJsonPayloadsTestCase extends ESBIntegrationTest {
 
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
 
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
@@ -44,7 +44,7 @@ public class HTTPPOSTOnJsonPayloadsTestCase extends ESBIntegrationTest {
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         super.cleanup();
     }
 
@@ -52,19 +52,20 @@ public class HTTPPOSTOnJsonPayloadsTestCase extends ESBIntegrationTest {
     public void testHTTPPostRequestJSONScenario() throws Exception {
 
         String JSON_PAYLOAD = "{\"album\":\"Hotel California\",\"singer\":\"Eagles\"}";
+        String contentType = "application/json";
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("JsonHTTPPostProxy"));
 
         // sending post request
-        ClientResponse postResponse = webResource.type("application/json")
+        ClientResponse postResponse = webResource.type(contentType)
                 .post(ClientResponse.class, JSON_PAYLOAD);
 
         assertEquals(postResponse.getType().toString(), "application/json", "Content-Type Should be application/json");
         assertEquals(postResponse.getStatus(), 201, "Response status should be 201");
 
         // Calling the GET request to verify Added album details
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
         assertNotNull(getResponse, "Received Null response for while getting Music album details");

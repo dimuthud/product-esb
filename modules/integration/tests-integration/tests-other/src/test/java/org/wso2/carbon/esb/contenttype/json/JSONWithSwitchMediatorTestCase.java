@@ -34,7 +34,8 @@ import static org.testng.Assert.assertNotNull;
  */
 public class JSONWithSwitchMediatorTestCase extends ESBIntegrationTest {
 
-    private Client client = Client.create();
+    private Client jerseyClient = Client.create();
+    private String contentType = "application/json";
 
     @BeforeClass(alwaysRun = true)
     public void setEnvironment() throws Exception {
@@ -44,27 +45,27 @@ public class JSONWithSwitchMediatorTestCase extends ESBIntegrationTest {
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
+        jerseyClient.destroy();
         super.cleanup();
-       }
+    }
 
     @Test(groups = {"wso2.esb"}, description = "Tests with switch mediator - JSON path Scenario - Case condition true")
     public void testJSONWithSwitchMediatorCaseTrueTestScenario() throws Exception {
 
         String JSON_PAYLOAD = "{\"album\":\"Sky\",\"singer\":\"Sam\"}";
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("JSONPathSwitchProxy"));
 
         // sending post request
-        ClientResponse postResponse = webResource.type("application/json")
+        ClientResponse postResponse = webResource.type(contentType)
                 .post(ClientResponse.class, JSON_PAYLOAD);
 
         assertEquals(postResponse.getType().toString(), "application/json", "Content-Type Should be application/json");
         assertEquals(postResponse.getStatus(), 201, "Response status should be 201");
 
         // Calling the GET request to verify Added album details
-        ClientResponse getResponse = webResource.type("application/json")
+        ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
         assertNotNull(getResponse, "Received Null response for while getting Music album details");
@@ -77,11 +78,11 @@ public class JSONWithSwitchMediatorTestCase extends ESBIntegrationTest {
 
         String JSON_PAYLOAD = "{\"album\":\"Home\",\"singer\":\"Sam\"}";
 
-        WebResource webResource = client
+        WebResource webResource = jerseyClient
                 .resource(getProxyServiceURLHttp("SONPathSwitchProxy"));
 
         // sending post request
-        ClientResponse postResponse = webResource.type("application/json")
+        ClientResponse postResponse = webResource.type(contentType)
                 .post(ClientResponse.class, JSON_PAYLOAD);
 
         assertEquals(postResponse.getStatus(), 202, "Response status should be 202");

@@ -59,6 +59,8 @@ public class JSONWithScriptMediatorBuildingXMLPayloadIterativelyTestCase extends
         super.cleanup();
     }
 
+
+    //TODO https://wso2.org/jira/browse/ESBJAVA-3423
     @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator " +
             "- by building xml payload in iterative manner", enabled = false)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
@@ -87,7 +89,7 @@ public class JSONWithScriptMediatorBuildingXMLPayloadIterativelyTestCase extends
                         "<name>Doltone House</name>" +
                         "<tags>food,establishment</tags>" +
                         "</location>" +
-                        "</locations>", "Response mismatch. Expected XML itreative payload response not received after " +
+                        "</locations>", "Response mismatch. Expected XML iterative payload response not received after " +
                 "transformation.");
 
     }
