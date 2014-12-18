@@ -57,7 +57,7 @@ public class JSONWithScriptMediatorXMLResponseTestCase extends ESBIntegrationTes
     }
 
     @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator " +
-            "- response should be in xml format",enabled = false)
+            "- response should be in xml format", enabled = false)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
 
         resourceAdminServiceClient.addResource(

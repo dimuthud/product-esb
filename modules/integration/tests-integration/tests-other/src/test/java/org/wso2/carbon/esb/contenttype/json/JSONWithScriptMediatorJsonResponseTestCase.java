@@ -58,8 +58,8 @@ public class JSONWithScriptMediatorJsonResponseTestCase extends ESBIntegrationTe
         super.cleanup();
     }
 
-    @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator"
-            /*enabled = false*/)
+    @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator",
+            enabled = false)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
 
         resourceAdminServiceClient.addResource(

@@ -59,7 +59,7 @@ public class JSONWithScriptMediatorBuildingXMLPayloadIterativelyTestCase extends
     }
 
     @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator " +
-            "- by building xml payload in iterative manner")
+            "- by building xml payload in iterative manner", enabled = false)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
 
         AxisServiceClient axisServiceClient = new AxisServiceClient();

@@ -18,7 +18,6 @@
 
 package org.wso2.carbon.esb.contenttype.json;
 
-import com.sun.jersey.api.client.Client;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -43,7 +42,6 @@ import static org.testng.Assert.assertTrue;
  */
 public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegrationTest {
 
-    private Client client = Client.create();
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @BeforeClass(alwaysRun = true)
@@ -58,12 +56,11 @@ public class JSONWithScriptMediatorJsonOperationsTestCase extends ESBIntegration
 
     @AfterClass(alwaysRun = true)
     public void stop() throws Exception {
-        client.destroy();
         super.cleanup();
     }
 
     @Test(groups = {"wso2.esb"}, description = "Tests content transformation within the ESB using Script mediator - " +
-            "Testing JSON operations - add, delete", enabled = false)
+            "Testing JSON operations - add, delete",enabled = false)
     public void testWithScriptMediatorJSONGettersAndSettersScenario() throws Exception {
 
         resourceAdminServiceClient.addResource(
