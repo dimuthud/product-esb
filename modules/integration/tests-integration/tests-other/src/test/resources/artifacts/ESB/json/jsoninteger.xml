@@ -38,7 +38,7 @@
                         </log>
                         <send>
                             <endpoint>
-                                <http method="POST" uri-template="http://localhost:8080/rest/api/music/add_singer_details"/>
+                                <http method="POST" uri-template="http://localhost:8080/rest/api/music/singer/addSingerDetails"/>
                             </endpoint>
                         </send>
                     </then>
@@ -49,7 +49,7 @@
                         <send>
                             <endpoint>
                                 <http method="GET"
-                                      uri-template="http://localhost:8080/rest/api/music/get_singer_details?singer=Sam%20Smith"/>
+                                      uri-template="http://localhost:8080/rest/api/music/singer/getSingerDetails?singer=Sam%20Smith"/>
                             </endpoint>
                         </send>
                     </else>

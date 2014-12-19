@@ -38,7 +38,7 @@
                         </log>
                         <send>
                             <endpoint>
-                                <http method="PUT" uri-template="http://localhost:8080/rest/api/music/put"/>
+                                <http method="PUT" uri-template="http://localhost:8080/rest/api/music/albumDetails/updateAlbum"/>
                             </endpoint>
                         </send>
                     </then>
@@ -49,7 +49,7 @@
                         <send>
                             <endpoint>
                                 <http method="GET"
-                                      uri-template="http://localhost:8080/rest/api/music/get/musicAlbum?album=THE%20ENDLESS%20RIVER"/>
+                                      uri-template="http://localhost:8080/rest/api/music/albumDetails/musicAlbum?album=THE%20ENDLESS%20RIVER"/>
                             </endpoint>
                         </send>
                     </else>

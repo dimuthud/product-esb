@@ -33,37 +33,37 @@ public class MusicRestService {
     private MusicService musicService;
 
     @GET
-    @Path("/get/musicAlbum")
+    @Path("/albumDetails/musicAlbum")
     @Produces(MediaType.APPLICATION_JSON)
     public Music getAlbumDetailsByName(@QueryParam("album") final String albumName) {
         return musicService.getByAlbum(albumName);
     }
 
     @POST
-    @Path("/post/addAlbum")
+    @Path("/albumDetails/custom/addAlbum")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAlbumDetailsReturnStatusSuccess(Music music) {
+    public Response addAlbumDetailsReturnCustomMessage(Music music) {
 
         musicService.setMusic(music);
 
         String result = "Album Added in POST : " + music;
-        return Response.status(201).entity(result).build();
+        return Response.status(Response.Status.CREATED).entity(result).build();
 
     }
 
     @POST
-    @Path("/postjson")
+    @Path("/albumDetails/addAlbum")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAlbumDetailsReturnStatusCreated(Music music) {
+    public Response addAlbumDetailsReturnJsonObject(Music music) {
 
         musicService.setMusic(music);
-        return Response.status(201).entity(music).build();
+        return Response.status(Response.Status.CREATED).entity(music).build();
     }
 
     @PUT
-    @Path("/put")
+    @Path("/albumDetails/updateAlbum")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateMusicInJSONPUT(Music music) {
@@ -77,7 +77,7 @@ public class MusicRestService {
     }
 
     @POST
-    @Path("/add_singer_details")
+    @Path("singer/addSingerDetails")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addSingerDetailsInJSONPOST(Singer singer) {
@@ -85,12 +85,12 @@ public class MusicRestService {
         musicService.setSinger(singer);
 
         String result = "Singer Added in POST : " + singer;
-        return Response.status(201).entity(result).build();
+        return Response.status(Response.Status.CREATED).entity(result).build();
 
     }
 
     @GET
-    @Path("/get_singer_details")
+    @Path("singer/getSingerDetails")
     @Produces(MediaType.APPLICATION_JSON)
     public Singer getSingerDetailsByName(@QueryParam("singer") final String singerName) {
         return musicService.getBySinger(singerName);

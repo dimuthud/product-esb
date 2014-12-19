@@ -42,7 +42,7 @@
                   </log>
                   <send>
                      <endpoint>
-                        <address uri="http://localhost:8080/rest/api/music/postjson"/>
+                        <address uri="http://localhost:8080/rest/api/music/albumDetails/addAlbum"/>
                      </endpoint>
                   </send>
                </then>
@@ -53,7 +53,7 @@
                   <send>
                      <endpoint>
                         <http method="GET"
-                              uri-template="http://localhost:8080/rest/api/music/get/musicAlbum?album=Desperado"/>
+                              uri-template="http://localhost:8080/rest/api/music/albumDetails/musicAlbum?album=Desperado"/>
                      </endpoint>
                   </send>
                </else>

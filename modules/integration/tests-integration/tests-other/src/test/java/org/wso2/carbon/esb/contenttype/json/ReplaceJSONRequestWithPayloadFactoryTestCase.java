@@ -28,6 +28,8 @@ import org.wso2.carbon.integration.common.admin.client.LogViewerClient;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
+import javax.ws.rs.core.Response;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -89,7 +91,7 @@ public class ReplaceJSONRequestWithPayloadFactoryTestCase extends ESBIntegration
         //This is to verify that the payload factory in the 'outsequence' behaved correctly.
         assertTrue(postResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
-        assertEquals(postResponse.getStatus(), 201, "Response status should be 201");
+        assertEquals(postResponse.getStatus(), Response.Status.CREATED.getStatusCode(), "Response status should be 201");
 
         // Calling the GET request to verify Added album details
         ClientResponse getResponse = webResource.type(contentType)

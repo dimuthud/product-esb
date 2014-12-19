@@ -28,6 +28,8 @@ import org.wso2.carbon.automation.extensions.servers.tomcatserver.TomcatServerMa
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 import org.wso2.esb.integration.services.jaxrs.musicsample.MusicConfig;
 
+import javax.ws.rs.core.Response;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
@@ -65,7 +67,7 @@ public class HTTPGETOnJSONPayloadsTestCase extends ESBIntegrationTest {
                 .get(ClientResponse.class);
 
         assertNotNull(getResponse, "Received Null response for while getting Music album details");
-        assertEquals(getResponse.getStatus(), 200, "Response status should be 200");
+        assertEquals(getResponse.getStatus(), Response.Status.OK.getStatusCode(), "Response status should be 200");
         assertEquals(getResponse.getEntity(String.class), "{\"album\":\"Gold\",\"singer\":\"Elton John\"}",
                 "Response mismatch for HTTP Get call");
     }

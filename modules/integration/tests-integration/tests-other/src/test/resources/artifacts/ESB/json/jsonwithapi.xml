@@ -50,7 +50,7 @@
                 <property name="POST_TO_URI" value="true" scope="axis2" type="STRING"/>
                 <send>
                     <endpoint>
-                        <http method="POST" uri-template="http://localhost:8080/rest/api/music/post/addAlbum"/>
+                        <http method="POST" uri-template="http://localhost:8080/rest/api/music/albumDetails/custom/addAlbum"/>
                     </endpoint>
                 </send>
             </inSequence>
@@ -67,7 +67,7 @@
                 <send>
                     <endpoint>
                         <http method="GET"
-                              uri-template="http://localhost:8080/rest/api/music/get/musicAlbum?album=New%20Moon"/>
+                              uri-template="http://localhost:8080/rest/api/music/albumDetails/musicAlbum?album=New%20Moon"/>
                     </endpoint>
                 </send>
             </inSequence>

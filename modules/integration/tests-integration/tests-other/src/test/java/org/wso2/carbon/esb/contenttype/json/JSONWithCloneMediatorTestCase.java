@@ -27,6 +27,8 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.automation.test.utils.tcpmon.client.TCPMonListener;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
+import javax.ws.rs.core.Response;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -84,7 +86,7 @@ public class JSONWithCloneMediatorTestCase extends ESBIntegrationTest {
                 .get(ClientResponse.class);
 
         assertEquals(getResponse.getType().toString(), "application/json", "Content-Type Should be application/json");
-        assertEquals(getResponse.getStatus(), 200, "Response status should be 200");
+        assertEquals(getResponse.getStatus(), Response.Status.OK.getStatusCode(), "Response status should be 200");
 
 
         // Analyzing tcp-mon inputs
@@ -93,7 +95,7 @@ public class JSONWithCloneMediatorTestCase extends ESBIntegrationTest {
                 getInputText().toString();
 
         assertNotNull(esbOutGoingMsgTcpMonOne, "Received Null response from the tcpMonListenerOne");
-        assertTrue(esbOutGoingMsgTcpMonOne.contains("GET /rest/api/music/get/musicAlbum?album=Gold"), "Error : TcpMonListenerOne " +
+        assertTrue(esbOutGoingMsgTcpMonOne.contains("GET /rest/api/music/albumDetails/musicAlbum?album=Gold"), "Error : TcpMonListenerOne " +
                 "received - outgoing GET request ");
         assertTrue(esbOutGoingMsgTcpMonOne.contains("Content-Type: application/json"), "TcpMonListenerOne received - " +
                 "outgoing Get request content-type mismatch");
@@ -102,7 +104,7 @@ public class JSONWithCloneMediatorTestCase extends ESBIntegrationTest {
                 getInputText().toString();
 
         assertNotNull(esbOutGoingMsgTcpMonTwo, "Received Null response from the tcpMonListenerTwo");
-        assertTrue(esbOutGoingMsgTcpMonTwo.contains("GET /rest/api/music/get/musicAlbum?album=Gold"), "Error : TcpMonListenerTwo " +
+        assertTrue(esbOutGoingMsgTcpMonTwo.contains("GET /rest/api/music/albumDetails/musicAlbum?album=Gold"), "Error : TcpMonListenerTwo " +
                 "received - outgoing GET request ");
         assertTrue(esbOutGoingMsgTcpMonTwo.contains("Content-Type: application/json"), "TcpMonListenerTwo received - " +
                 "outgoing Get request content-type mismatch");
@@ -111,7 +113,7 @@ public class JSONWithCloneMediatorTestCase extends ESBIntegrationTest {
                 getInputText().toString();
 
         assertNotNull(esbOutGoingMsgTcpMonThree, "Received Null response from the tcpMonListenerThree");
-        assertTrue(esbOutGoingMsgTcpMonTwo.contains("GET /rest/api/music/get/musicAlbum?album=Gold"), "Error : TcpMonListenerThree " +
+        assertTrue(esbOutGoingMsgTcpMonTwo.contains("GET /rest/api/music/albumDetails/musicAlbum?album=Gold"), "Error : TcpMonListenerThree " +
                 "received - outgoing GET request ");
         assertTrue(esbOutGoingMsgTcpMonTwo.contains("Content-Type: application/json"), "TcpMonListenerThree received - " +
                 "outgoing Get request content-type mismatch");

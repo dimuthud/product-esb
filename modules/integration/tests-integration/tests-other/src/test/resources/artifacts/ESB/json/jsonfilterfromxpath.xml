@@ -43,7 +43,7 @@
                                 </log>
                                 <send>
                                     <endpoint>
-                                        <http method="POST" uri-template="http://localhost:8080/rest/api/music/post/addAlbum"/>
+                                        <http method="POST" uri-template="http://localhost:8080/rest/api/music/albumDetails/custom/addAlbum"/>
                                     </endpoint>
                                 </send>
                             </then>
@@ -61,7 +61,7 @@
                         <send>
                             <endpoint>
                                 <http method="GET"
-                                      uri-template="http://localhost:8080/rest/api/music/get/musicAlbum?album=River"/>
+                                      uri-template="http://localhost:8080/rest/api/music/albumDetails/musicAlbum?album=River"/>
                             </endpoint>
                         </send>
                     </else>

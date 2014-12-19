@@ -38,7 +38,7 @@
                         </log>
                         <send>
                             <endpoint>
-                                <http method="POST" uri-template="http://localhost:8080/rest/api/music/post/addAlbum"/>
+                                <http method="POST" uri-template="http://localhost:8080/rest/api/music/albumDetails/custom/addAlbum"/>
                             </endpoint>
                         </send>
                     </then>
@@ -49,7 +49,7 @@
                         <send>
                             <endpoint>
                                 <http method="GET"
-                                      uri-template="http://localhost:8080/rest/api/music/get/musicAlbum?album=Hotel%20California"/>
+                                      uri-template="http://localhost:8080/rest/api/music/albumDetails/musicAlbum?album=Hotel%20California"/>
                             </endpoint>
                         </send>
                     </else>

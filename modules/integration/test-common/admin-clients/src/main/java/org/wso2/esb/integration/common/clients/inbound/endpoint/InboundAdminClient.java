@@ -65,7 +65,7 @@ public class InboundAdminClient {
      * @throws RemoteException
      * @throws InboundAdminInboundManagementException
      */
-    public InboundEndpointDTO[] getAllInboundEndpointNames() throws RemoteException, InboundAdminInboundManagementException {
+    public String getAllInboundEndpointNames() throws RemoteException, InboundAdminInboundManagementException {
         try {
             return endpointAdminStub.getAllInboundEndpointNames();
         } catch (RemoteException e) {
@@ -108,7 +108,7 @@ public class InboundAdminClient {
      */
     public void addInboundEndpoint(String name, String sequence,
                                    String onError, String protocol, String classImpl,
-                                   ParameterDTO[] sParams) throws RemoteException, InboundAdminInboundManagementException {
+                                   String[] sParams) throws RemoteException, InboundAdminInboundManagementException {
         try {
             endpointAdminStub.addInboundEndpoint(name, sequence, onError, protocol, classImpl, sParams);
         } catch (RemoteException e) {
@@ -146,7 +146,7 @@ public class InboundAdminClient {
      */
     public void updateInboundEndpoint(String name, String sequence,
                                       String onError, String protocol, String classImpl,
-                                      ParameterDTO[] sParams) throws RemoteException, InboundAdminInboundManagementException {
+                                      String[] sParams) throws RemoteException, InboundAdminInboundManagementException {
         try {
             endpointAdminStub.updateInboundEndpoint(name, sequence, onError, protocol, classImpl, sParams);
         } catch (RemoteException e) {

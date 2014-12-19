@@ -26,6 +26,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
+import javax.ws.rs.core.Response;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
@@ -79,7 +81,7 @@ public class HTTPPUTOnJsonPayloadsTestCase extends ESBIntegrationTest {
                 .put(ClientResponse.class, JSON_PAYLOAD);
 
         assertEquals(putResponse.getType().toString(), "application/json", "Content-Type Should be application/json");
-        assertEquals(putResponse.getStatus(), 201, "Response status should be 201");
+        assertEquals(putResponse.getStatus(), Response.Status.CREATED.getStatusCode(), "Response status should be 201");
 
         // Calling the GET request to verify Added album details
         ClientResponse getResponse = webResource.type(contentType)

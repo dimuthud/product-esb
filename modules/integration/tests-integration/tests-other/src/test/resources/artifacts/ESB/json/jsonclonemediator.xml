@@ -35,17 +35,17 @@
             <clone>
                <target>
                   <endpoint>
-                     <address uri="http://localhost:9005/rest/api/music/get/musicAlbum?album=Gold"/>
+                     <address uri="http://localhost:9005/rest/api/music/albumDetails/musicAlbum?album=Gold"/>
                   </endpoint>
                </target>
                <target>
                   <endpoint>
-                     <address uri="http://localhost:9006/rest/api/music/get/musicAlbum?album=Gold"/>
+                     <address uri="http://localhost:9006/rest/api/music/albumDetails/musicAlbum?album=Gold"/>
                   </endpoint>
                </target>
                <target>
                   <endpoint>
-                     <address uri="http://localhost:9007/rest/api/music/get/musicAlbum?album=Gold"/>
+                     <address uri="http://localhost:9007/rest/api/music/albumDetails/musicAlbum?album=Gold"/>
                   </endpoint>
                </target>
             </clone>

@@ -43,7 +43,7 @@
                   </payloadFactory>
                   <send>
                      <endpoint>
-                        <address uri="http://localhost:8080/rest/api/music/postjson"/>
+                        <address uri="http://localhost:8080/rest/api/music/albumDetails/addAlbum"/>
                      </endpoint>
                   </send>
                </then>
@@ -54,7 +54,7 @@
                   <send>
                      <endpoint>
                         <http method="GET"
-                              uri-template="http://localhost:8080/rest/api/music/get/musicAlbum?album=First%20Change"/>
+                              uri-template="http://localhost:8080/rest/api/music/albumDetails/musicAlbum?album=First%20Change"/>
                      </endpoint>
                   </send>
                </else>

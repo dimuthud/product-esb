@@ -26,6 +26,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.esb.integration.common.utils.ESBIntegrationTest;
 
+import javax.ws.rs.core.Response;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -63,7 +65,7 @@ public class JSONWithAPITestCase extends ESBIntegrationTest {
         // NOTE : ESB appends charset=UTF-8
         assertTrue(getResponse.getType().toString().contains(contentType),
                 "Content-Type Should be application/json");
-        assertEquals(getResponse.getStatus(), 201, "Response status should be 201");
+        assertEquals(getResponse.getStatus(), Response.Status.CREATED.getStatusCode(), "Response status should be 201");
 
     }
 
@@ -78,7 +80,7 @@ public class JSONWithAPITestCase extends ESBIntegrationTest {
         ClientResponse getResponse = webResource.type(contentType)
                 .get(ClientResponse.class);
 
-        assertEquals(getResponse.getStatus(), 200, "Response status should be 200");
+        assertEquals(getResponse.getStatus(), Response.Status.OK.getStatusCode(), "Response status should be 200");
 
         // NOTE : ESB appends charset=UTF-8
         assertTrue(getResponse.getType().toString().contains(contentType),

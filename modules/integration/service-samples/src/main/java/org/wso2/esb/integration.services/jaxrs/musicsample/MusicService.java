@@ -26,7 +26,6 @@ import org.wso2.esb.integration.services.jaxrs.musicsample.bean.Singer;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-
 @Service
 public class MusicService {
 
@@ -66,7 +65,6 @@ public class MusicService {
 
         musicCollection.put(music.getAlbum(),music);
     }
-
 
     public Singer getBySinger( final String singer ) {
 

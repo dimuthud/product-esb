@@ -38,7 +38,7 @@
                         <property name="albumname" value="Album is Sky"/>
                         <send>
                            <endpoint>
-                              <http method="POST" uri-template="http://localhost:8080/rest/api/music/post/addAlbum"/>
+                              <http method="POST" uri-template="http://localhost:8080/rest/api/music/albumDetails/custom/addAlbum"/>
                            </endpoint>
                         </send>
                      </case>
@@ -55,7 +55,7 @@
                   <send>
                      <endpoint>
                         <http method="GET"
-                              uri-template="http://localhost:8080/rest/api/music/get/musicAlbum?album=Sky"/>
+                              uri-template="http://localhost:8080/rest/api/music/albumDetails/musicAlbum?album=Sky"/>
                      </endpoint>
                   </send>
                </else>
