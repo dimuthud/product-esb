@@ -81,7 +81,7 @@ public class JSONWithSwitchMediatorTestCase extends ESBIntegrationTest {
         String JSON_PAYLOAD = "{\"album\":\"Home\",\"singer\":\"Sam\"}";
 
         WebResource webResource = jerseyClient
-                .resource(getProxyServiceURLHttp("SONPathSwitchProxy"));
+                .resource(getProxyServiceURLHttp("JSONPathSwitchProxy"));
 
         // sending post request
         ClientResponse postResponse = webResource.type(contentType)
